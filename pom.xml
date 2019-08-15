@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>CucumberSpringTest</name>
-    <description>Jenkins 整合 Selenium 的 Cucumber 测试示例项目</description>
+    <description>Jenkins 整合 Cucumber Spring测试示例项目</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -24,16 +24,16 @@
     </properties>
 
     <!--<distributionManagement>-->
-        <!--<repository>-->
-            <!--<id>nexus-releases</id>-->
-            <!--<name>nexus-releases</name>-->
-            <!--<url>http://192.168.137.201:8082/repository/maven-releases/</url>-->
-        <!--</repository>-->
-        <!--<snapshotRepository>-->
-            <!--<id>nexus-snapshots</id>-->
-            <!--<name>nexus-snapshots</name>-->
-            <!--<url>http://192.168.137.201:8082/repository/maven-snapshots/</url>-->
-        <!--</snapshotRepository>-->
+    <!--<repository>-->
+    <!--<id>nexus-releases</id>-->
+    <!--<name>nexus-releases</name>-->
+    <!--<url>http://192.168.137.201:8082/repository/maven-releases/</url>-->
+    <!--</repository>-->
+    <!--<snapshotRepository>-->
+    <!--<id>nexus-snapshots</id>-->
+    <!--<name>nexus-snapshots</name>-->
+    <!--<url>http://192.168.137.201:8082/repository/maven-snapshots/</url>-->
+    <!--</snapshotRepository>-->
     <!--</distributionManagement>-->
 
     <dependencies>
@@ -60,24 +60,12 @@
         </dependency>
 
         <!-- Cucumber 测试依赖开始 -->
-        <!--<dependency>-->
-            <!--<groupId>info.cukes</groupId>-->
-            <!--<artifactId>cucumber-core</artifactId>-->
-            <!--<version>${cucumber.version}</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>info.cukes</groupId>-->
-            <!--<artifactId>cucumber-java8</artifactId>-->
-            <!--<version>${cucumber.version}</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-spring</artifactId>
@@ -90,43 +78,6 @@
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.seleniumhq.selenium</groupId>-->
-            <!--<artifactId>selenium-java</artifactId>-->
-            <!--<version>2.47.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.picocontainer</groupId>-->
-            <!--<artifactId>picocontainer</artifactId>-->
-            <!--<version>2.14</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>info.cukes</groupId>-->
-            <!--<artifactId>cucumber-picocontainer</artifactId>-->
-            <!--<version>${cucumber.version}</version>-->
-        <!--</dependency>-->
-        <!-- Cucumber 测试依赖结束 -->
-
-        <!--<dependency>-->
-            <!--<groupId>com.vimalselvam</groupId>-->
-            <!--<artifactId>cucumber-extentsreport</artifactId>-->
-            <!--<version>3.0.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.aventstack</groupId>-->
-            <!--<artifactId>extentreports</artifactId>-->
-            <!--<version>3.0.6</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.relevantcodes</groupId>-->
-            <!--<artifactId>extentreports</artifactId>-->
-            <!--<version>2.40.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-test</artifactId>-->
-            <!--<version>5.0.2.RELEASE</version>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>commons-io</groupId>
@@ -186,11 +137,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>junit</groupId>-->
-            <!--<artifactId>junit</artifactId>-->
-            <!--<version>4.12</version>-->
-        <!--</dependency>-->
         <!-- 单元测试依赖结束 -->
     </dependencies>
 
@@ -223,27 +169,6 @@
                     <classifier>exec</classifier>
                 </configuration>
             </plugin>
-
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<source>1.8</source>-->
-                    <!--<target>1.8</target>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-surefire-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<testFailureIgnore>-->
-                        <!--true&lt;!&ndash; 因为要执行Cucumber &ndash;&gt;-->
-                    <!--</testFailureIgnore>-->
-                    <!--<includes>-->
-                        <!--<include>**/*Test.java</include>-->
-                    <!--</includes>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
         </plugins>
     </build>
 

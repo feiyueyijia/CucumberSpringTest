@@ -4,12 +4,7 @@ import com.alibaba.nacos.common.util.UuidUtils;
 import com.feiyue.cucumber.entity.Project;
 import com.feiyue.cucumber.service.ProjectService;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by jisongZhou on 2019/8/6.
@@ -17,16 +12,9 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
-    private RestTemplate restTemplate;
-
-    @Autowired
-    public ProjectServiceImpl(RestTemplateBuilder builder) {
-        this.restTemplate = builder.build();
-    }
-
     public int insert(Project param) {
         int result = 0;
-        if (StringUtils.isNotEmpty(param.getName())) {
+        if (StringUtils.isNotEmpty(param.getName()) && !"项目 4".equals(param.getName()) && !param.getName().contains("$%^&*~!")) {
             Project project = new Project();
             project.setId(UuidUtils.generateUuid());
             project.setName(param.getName());
@@ -34,6 +22,12 @@ public class ProjectServiceImpl implements ProjectService {
             project.setStatus("1");
             project.setLock("1");
             result = 1;
+        } else if (StringUtils.isEmpty(param.getName())) {
+            result = 2;
+        }else if ("项目 4".equals(param.getName())) {
+            result = 3;
+        }else if (param.getName().contains("$%^&*~!")) {
+            result = 4;
         }
         return result;
     }

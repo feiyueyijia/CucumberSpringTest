@@ -18,18 +18,12 @@ public class FStructureScene extends AbstractDefs {
 
     boolean menuPermission = false; //菜单权限
     boolean projectPermission = false;  //项目权限
-    boolean createResult = false;   //创建结果
+    String createResultMessage = "";   //创建结果
+    String queryResultMessage = "";   //查看结果
 
-    //@Resource(name = "projectService")
+
     @Autowired
     private ProjectService service;
-
-//    @Test
-//    public void name() {
-//        service.insert(null);
-//        System.out.println();
-//    }
-
 
     @Given("^登录用户拥有菜单权限$")
     public void menuPermission() {
@@ -49,9 +43,6 @@ public class FStructureScene extends AbstractDefs {
 
     @Given("^动作执行成功$")
     public void success() throws Exception {
-        if (createResult) {
-
-        }
         //Assert.assertEquals(createResult, true);
     }
 
@@ -78,7 +69,30 @@ public class FStructureScene extends AbstractDefs {
         project.setDescription(projectDescription);
         project.setStatus("1");
         project.setLock("1");
-        service.insert(project);
+        int result = service.insert(project);
+        switch (result) {
+            case 0:
+                createResultMessage = "";
+                break;
+            case 1:
+                createResultMessage = "项目创建成功";
+                queryResultMessage = "项目查看成功";
+                break;
+            case 2:
+                createResultMessage = "项目创建失败，项目名不能为空";
+                queryResultMessage = "项目不存在";
+                break;
+            case 3:
+                createResultMessage = "项目创建失败，项目名已存在";
+                queryResultMessage = "项目查看成功";
+                break;
+            case 4:
+                createResultMessage = "项目创建失败，项目名存在非法参数";
+                queryResultMessage = "项目不存在";
+                break;
+            default:
+                break;
+        }
     }
 
     @And("^输入 \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
@@ -103,17 +117,12 @@ public class FStructureScene extends AbstractDefs {
 
     @Then("^返回新建项目执行结果 \"([^\"]*)\"$")
     public void verifyCreateProjectResult(String result) {
-        String message = "项目创建成功";
-        if (result.equals(message)) {
-            createResult = true;
-        }
-        //Assert.assertEquals(message, result);
+        Assert.assertEquals(createResultMessage, result);
     }
 
     @Then("^返回查看项目执行结果 \"([^\"]*)\"$")
     public void verifyQueryProjectResult(String result) {
-        String message = "项目查看成功";
-        Assert.assertEquals(message, result);
+        Assert.assertEquals(queryResultMessage, result);
     }
 
 }
