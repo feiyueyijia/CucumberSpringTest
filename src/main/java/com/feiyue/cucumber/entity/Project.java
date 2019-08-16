@@ -1,5 +1,7 @@
 package com.feiyue.cucumber.entity;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * Created by jisongZhou on 2019/8/6.
  **/
@@ -7,6 +9,7 @@ public class Project {
 
     private String id;
 
+    @NotEmpty
     private String name;
 
     private String description;

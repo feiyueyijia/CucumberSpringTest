@@ -1,5 +1,6 @@
 package com.feiyue.cucumber.fstructure;
 
+import com.feiyue.cucumber.base.APIBaseTest;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
@@ -13,6 +14,6 @@ import org.junit.runner.RunWith;
         glue = {"com.feiyue"},
         plugin = {"json:target/cucumber/cucumber.json", "html:target/cucumber", "pretty"},
         features = "src/test/resources/feature/")
-public class FStructureTest {
+public class FStructureTest extends APIBaseTest {
 
 }

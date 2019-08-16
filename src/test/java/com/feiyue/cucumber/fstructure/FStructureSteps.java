@@ -1,29 +1,33 @@
 package com.feiyue.cucumber.fstructure;
 
-import com.alibaba.nacos.common.util.UuidUtils;
-import com.feiyue.cucumber.base.AbstractDefs;
+import com.alibaba.fastjson.JSONObject;
+import com.feiyue.cucumber.base.APIBaseTest;
 import com.feiyue.cucumber.entity.Project;
-import com.feiyue.cucumber.service.ProjectService;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jisongZhou on 2019/8/6.
  **/
-public class FStructureScene extends AbstractDefs {
+public class FStructureSteps extends APIBaseTest {
 
     boolean menuPermission = false; //菜单权限
     boolean projectPermission = false;  //项目权限
     String createResultMessage = "";   //创建结果
     String queryResultMessage = "";   //查看结果
 
-
-    @Autowired
-    private ProjectService service;
+    @Before
+    public void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
 
     @Given("^登录用户拥有菜单权限$")
     public void menuPermission() {
@@ -62,37 +66,30 @@ public class FStructureScene extends AbstractDefs {
     }
 
     @And("^输入 \"([^\"]*)\" 和 \"([^\"]*)\"$")
-    public void insertProjectInfo(String projectName, String projectDescription) {
+    public void insertProjectInfo(String projectName, String projectDescription) throws Exception {
+
+        /*--------------------开始业务组装--------------------*/
+
+        Map<String, String> paramsMap = new HashMap<>();
+
         Project project = new Project();
-        project.setId(UuidUtils.generateUuid());
+        project.setId("1234567");
         project.setName(projectName);
         project.setDescription(projectDescription);
         project.setStatus("1");
         project.setLock("1");
-        int result = service.insert(project);
-        switch (result) {
-            case 0:
-                createResultMessage = "";
-                break;
-            case 1:
-                createResultMessage = "项目创建成功";
-                queryResultMessage = "项目查看成功";
-                break;
-            case 2:
-                createResultMessage = "项目创建失败，项目名不能为空";
-                queryResultMessage = "项目不存在";
-                break;
-            case 3:
-                createResultMessage = "项目创建失败，项目名已存在";
-                queryResultMessage = "项目查看成功";
-                break;
-            case 4:
-                createResultMessage = "项目创建失败，项目名存在非法参数";
-                queryResultMessage = "项目不存在";
-                break;
-            default:
-                break;
-        }
+
+        //转换成ajax请求的json数据
+        String content = JSONObject.toJSONString(project);
+
+        /*--------------------业务组装结束--------------------*/
+
+        //指定要请求的接口路径
+        String url = "/project/insert";
+
+        //模拟页面请求
+        JSONObject result = postRequest(url, content);
+        createResultMessage = result.getString("message");
     }
 
     @And("^输入 \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
@@ -106,8 +103,26 @@ public class FStructureScene extends AbstractDefs {
     }
 
     @And("^查看项目 \"([^\"]*)\"$")
-    public void findProject(String projectName) {
+    public void findProject(String projectName) throws Exception {
 
+        /*--------------------开始业务组装--------------------*/
+
+        Map<String, String> paramsMap = new HashMap<>();
+
+        Project project = new Project();
+        project.setName(projectName);
+
+        //转换成ajax请求的json数据
+        String content = JSONObject.toJSONString(project);
+
+        /*--------------------业务组装结束--------------------*/
+
+        //指定要请求的接口路径
+        String url = "/project/selectOne";
+
+        //模拟页面请求
+        JSONObject result = getRequest(url, content);
+        queryResultMessage = result.getString("message");
     }
 
     @Then("^打开功能结构管理菜单$")
@@ -117,6 +132,7 @@ public class FStructureScene extends AbstractDefs {
 
     @Then("^返回新建项目执行结果 \"([^\"]*)\"$")
     public void verifyCreateProjectResult(String result) {
+
         Assert.assertEquals(createResultMessage, result);
     }
 
