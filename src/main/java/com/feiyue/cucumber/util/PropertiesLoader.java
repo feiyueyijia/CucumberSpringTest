@@ -104,7 +104,7 @@ public class PropertiesLoader {
     /**
      * 取出Double类型的Property，但以System的Property优先.如果都为Null则返回Default值，如果内容错误则抛出异常
      */
-    public Double getDouble(String key, Integer defaultValue) {
+    public Double getDouble(String key, Double defaultValue) {
         String value = getValue(key);
         return value != null ? Double.valueOf(value) : defaultValue;
     }

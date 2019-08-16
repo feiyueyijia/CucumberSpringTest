@@ -119,7 +119,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             }
             return sb.toString();
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return "";
     }
