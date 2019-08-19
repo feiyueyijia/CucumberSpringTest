@@ -22,7 +22,11 @@ public class FStructureSteps extends APIBaseTest {
     boolean menuPermission = false; //菜单权限
     boolean projectPermission = false;  //项目权限
     String createResultMessage = "";   //创建结果
+    String updateResultMessage = "";   //修改结果
+    String lockResultMessage = "";  //锁定结果
     String queryResultMessage = "";   //查看结果
+    Project project = new Project();
+
 
     @Before
     public void setUp() {
@@ -39,10 +43,8 @@ public class FStructureSteps extends APIBaseTest {
 
     @Given("^用户 \"([^\"]*)\" 拥有项目权限$")
     public void projectPermission(String userName) {
-        if (userName.equals("admin")) {
-            projectPermission = true;
-        }
-        Assert.assertEquals(projectPermission, true);
+        project = new Project();
+        project.setUserName(userName);
     }
 
     @Given("^动作执行成功$")
@@ -52,17 +54,35 @@ public class FStructureSteps extends APIBaseTest {
 
     @When("^点击新建项目按钮$")
     public void createProject() throws Exception {
-        Thread.sleep(1000);
+
     }
 
     @When("^选择 \"([^\"]*)\" 点击锁定项目按钮$")
     public void lockProject(String projectName) throws Exception {
 
+        /*--------------------开始业务组装--------------------*/
+
+        Map<String, String> paramsMap = new HashMap<>();
+
+        project.setName(projectName);
+        project.setLock("1");
+
+        //转换成ajax请求的json数据
+        String content = JSONObject.toJSONString(project);
+
+        /*--------------------业务组装结束--------------------*/
+
+        //指定要请求的接口路径
+        String url = "/project/lock";
+
+        //模拟页面请求
+        JSONObject result = postRequest(url, content);
+        lockResultMessage = result.getString("message");
     }
 
     @When("^选择 \"([^\"]*)\" 点击修改项目按钮$")
     public void updateProject(String projectName) throws Exception {
-        Thread.sleep(1000);
+
     }
 
     @And("^输入 \"([^\"]*)\" 和 \"([^\"]*)\"$")
@@ -72,7 +92,7 @@ public class FStructureSteps extends APIBaseTest {
 
         Map<String, String> paramsMap = new HashMap<>();
 
-        Project project = new Project();
+        project = new Project();
         project.setId("1234567");
         project.setName(projectName);
         project.setDescription(projectDescription);
@@ -92,9 +112,27 @@ public class FStructureSteps extends APIBaseTest {
         createResultMessage = result.getString("message");
     }
 
-    @And("^输入 \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
-    public void updateProjectInfo(String projectName, String projectDescription, String ProjectStatus) {
+    @And("^修改 \"([^\"]*)\" 和 \"([^\"]*)\"$")
+    public void updateProjectInfo(String projectDescription, String ProjectStatus) throws Exception {
 
+        /*--------------------开始业务组装--------------------*/
+
+        Map<String, String> paramsMap = new HashMap<>();
+
+        project.setDescription(projectDescription);
+        project.setStatus(ProjectStatus);
+
+        //转换成ajax请求的json数据
+        String content = JSONObject.toJSONString(project);
+
+        /*--------------------业务组装结束--------------------*/
+
+        //指定要请求的接口路径
+        String url = "/project/update";
+
+        //模拟页面请求
+        JSONObject result = postRequest(url, content);
+        updateResultMessage = result.getString("message");
     }
 
     @And("^点击确定按钮$")
@@ -139,6 +177,16 @@ public class FStructureSteps extends APIBaseTest {
     @Then("^返回查看项目执行结果 \"([^\"]*)\"$")
     public void verifyQueryProjectResult(String result) {
         Assert.assertEquals(queryResultMessage, result);
+    }
+
+    @Then("^返回锁定项目执行结果 \"([^\"]*)\"$")
+    public void verifyLockProjectResult(String result) {
+        Assert.assertEquals(lockResultMessage, result);
+    }
+
+    @Then("^返回修改项目执行结果 \"([^\"]*)\"$")
+    public void verifyUpdateProjectResult(String result) {
+        Assert.assertEquals(updateResultMessage, result);
     }
 
 }

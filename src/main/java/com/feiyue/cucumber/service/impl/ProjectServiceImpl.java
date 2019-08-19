@@ -26,6 +26,18 @@ public class ProjectServiceImpl implements ProjectService {
         return result;
     }
 
+    @Transactional
+    public int update(Project param) throws BusinessException {
+        Project project = new Project();
+        project.setId("1234567");
+        project.setName(param.getName());
+        project.setDescription(param.getDescription());
+        project.setStatus("1");
+        project.setLock("1");
+        int result = 1;
+        return result;
+    }
+
     private void validateProject(Project project) throws BusinessException {
         this.validateProjectNameDuplicate(project);
         this.validateProjectNameEmpty(project);
@@ -48,6 +60,23 @@ public class ProjectServiceImpl implements ProjectService {
         if (project.getName().contains("$%^&*~!")) {
             throw new BusinessException("20103");
         }
+    }
+
+    public boolean permission(Project project) throws BusinessException {
+        if (!"管理员".equals(project.getUserName())) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isLocked(Project project) throws BusinessException {
+//        if ("UNLOCKED".equals(project.getLock())) {
+//            return false;
+//        }
+        if ("已锁定".equals(project.getStatus())) {
+            return true;
+        }
+        return false;
     }
 
     public Project selectOne(Project project) throws BusinessException {

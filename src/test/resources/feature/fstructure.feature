@@ -29,37 +29,38 @@ Feature: 功能结构管理
       |            | 描述 4  | 项目创建失败，项目名不能为空     | 项目不存在   |
       | $%^&*~!345 | 描述 4  | 项目创建失败，项目名存在非法参数 | 项目不存在   |
 
-#  @FStructureTest
-#  Scenario Outline: 锁定项目
-#    Given 用户 "<user>" 拥有菜单权限
-#    Then  打开功能结构管理菜单
-#    Given 用户 "<user>" 拥有项目权限
-#    When  选择 "<project_name>" 点击锁定项目按钮
-#    Then  返回执行结果 "<result>"
-#
-#    Examples:
-#      | user  | project_name | result                         |
-#      | admin |   project1   | 项目锁定成功                    |
-#      | user1 |   project1   | 项目锁定失败，该用户没有项目权限 |
-#
-#  @FStructureTest
-#  Scenario Outline: 修改项目
-#    Given 用户 "<user>" 拥有菜单权限
-#    Then  打开功能结构管理菜单
-#    Given 用户 "<user>" 拥有项目权限
-#    When  选择 "<project_name_select>" 点击修改项目按钮
-#    And   输入 "<project_name_input>" and "<project_description>" and "<project_status>"
-#    And   点击确定按钮
-#    Then  返回执行结果 "<result1>"
-#    When  动作执行成功
-#    And   查看项目 "<project_name_input>"
-#    Then  返回执行结果 "<result2>"
-#
-#    Examples:
-#      | user  | project_name_select | project_name_input | project_description | project_status | result1                        | result2                |
-#      | admin | project2            | project2           | project2_info       | status1        | 项目修改成功                    | 项目查看成功            |
-#      | admin | project3            | project3           | project3_info       | status2        | 项目修改成功                    | 项目查看成功            |
-#      | user1 | project2            | project2           | project2_info       | status3        | 项目修改失败，该用户没有项目权限 | 项目查看成功            |
-#      | admin | project2            | $%^&*~!345         | project2_info       | status4        | 项目修改失败，项目名含非法参数   | 项目查看失败，项目不存在 |
-#      | admin | project2            | project1           | project2_info       | status5        | 项目修改失败，项目名已存在       | 项目查看失败            |
-#      | admin | project1            | project1           | project1_info       | status6        | 项目修改失败，锁定项目无法修改   | 项目查看失败            |
+  @FStructureTest
+  Scenario Outline: 锁定项目
+    Given 用户 "<用户名称>" 拥有项目权限
+    When  选择 "<项目名称>" 点击锁定项目按钮
+    Then  返回锁定项目执行结果 "<锁定结果>"
+
+    Examples: 锁定项目执行成功
+      | 用户名称 | 项目名称 | 锁定结果     |
+      | 管理员  | 项目 1   | 项目锁定成功 |
+
+    Examples: 锁定项目执行失败
+      | 用户名称 | 项目名称 | 锁定结果                       |
+      | 用户 1  | 项目 1  | 项目锁定失败，该用户没有项目权限 |
+
+  @FStructureTest
+  Scenario Outline: 修改项目
+    Given 用户 "<用户名称>" 拥有项目权限
+    When  选择 "<项目名称>" 点击修改项目按钮
+    And   修改 "<项目描述>" 和 "<项目状态>"
+    And   点击确定按钮
+    Then  返回修改项目执行结果 "<修改结果>"
+    When  动作执行成功
+    And   查看项目 "<项目名称>"
+    Then  返回查看项目执行结果 "<查看结果>"
+
+    Examples: 修改项目执行成功
+      | 用户名称 | 项目名称 | 项目描述 | 项目状态 | 修改结果     | 查看结果     |
+      | 管理员  | 项目 2   | 描述 2  | 进行中  | 项目修改成功 | 项目查看成功 |
+      | 管理员  | 项目 3   | 描述 3  | 未开始  | 项目修改成功 | 项目查看成功 |
+
+    Examples: 修改项目执行失败
+      | 用户名称 | 项目名称 | 项目描述 | 项目状态 | 修改结果                        | 查看结果     |
+      | 用户 1  | 项目 2   | 描述 2  | 进行中  | 项目修改失败，该用户没有项目权限 | 项目查看成功 |
+      | 管理员  | 项目 1   | 描述 1  | 已锁定  | 项目修改失败，锁定项目无法修改   | 项目查看成功 |
+

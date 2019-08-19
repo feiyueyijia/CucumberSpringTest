@@ -18,6 +18,8 @@ public class Project {
 
     private String lock;
 
+    private String userName;
+
     public String getId() {
         return id;
     }
@@ -58,4 +60,11 @@ public class Project {
         this.lock = lock;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }
