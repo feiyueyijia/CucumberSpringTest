@@ -19,14 +19,14 @@ public class ProjectController {
 
     @PostMapping(value = "/insert")
     @ResponseBody
-    public InvokeResult insert(@RequestBody Project entity) throws Throwable {
+    public InvokeResult insert(@RequestBody Project entity) throws Exception {
         int result = projectService.insert(entity);
         return InvokeResult.writeResult(result, "20100", "10003", "10002");
     }
 
     @PostMapping(value = "/update")
     @ResponseBody
-    public InvokeResult update(@RequestBody Project entity) throws Throwable {
+    public InvokeResult update(@RequestBody Project entity) throws Exception {
         boolean flag1 = projectService.permission(entity);
         boolean flag2 = projectService.isLocked(entity);
         if (!flag1) {
@@ -41,7 +41,7 @@ public class ProjectController {
 
     @PostMapping(value = "/lock")
     @ResponseBody
-    public InvokeResult lock(@RequestBody Project entity) throws Throwable {
+    public InvokeResult lock(@RequestBody Project entity) throws Exception {
         boolean flag = projectService.permission(entity);
         if (!flag) {
             throw new BusinessException("20131");
@@ -52,14 +52,14 @@ public class ProjectController {
 
     @GetMapping(value = "/permission")
     @ResponseBody
-    public InvokeResult permission(@RequestBody Project entity) throws Throwable {
+    public InvokeResult permission(@RequestBody Project entity) throws Exception {
         boolean result = projectService.permission(entity);
         return InvokeResult.readResult(result, "10001", "10003", "20141");
     }
 
     @GetMapping(value = "/selectOne")
     @ResponseBody
-    public InvokeResult selectOne(@RequestBody Project entity) throws Throwable {
+    public InvokeResult selectOne(@RequestBody Project entity) throws Exception {
         Project result = projectService.selectOne(entity);
         return InvokeResult.readResult(result, "20140", "10003", "20141");
     }
