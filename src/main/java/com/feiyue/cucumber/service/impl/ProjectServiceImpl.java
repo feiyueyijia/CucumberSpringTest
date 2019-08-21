@@ -1,96 +1,91 @@
 package com.feiyue.cucumber.service.impl;
 
-import com.feiyue.cucumber.entity.Project;
+import com.feiyue.cucumber.entity.ProjectEntity;
+import com.feiyue.cucumber.mapper.ProjectMapper;
 import com.feiyue.cucumber.service.ProjectService;
 import com.feiyue.cucumber.util.BusinessException;
 import com.feiyue.cucumber.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Created by jisongZhou on 2019/8/6.
- **/
+ * 功能结构管理项目对象ServiceImpl
+ * Author auto
+ * Date  2019-08-21
+ */
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
+    @Autowired
+    private ProjectMapper projectMapper;
+
     @Transactional
-    public int insert(Project param) throws BusinessException {
-        this.validateProject(param);
-        Project project = new Project();
-        project.setId("1234567");
-        project.setName(param.getName());
-        project.setDescription(param.getDescription());
-        project.setStatus("1");
-        project.setLock("1");
-        int result = 1;
-        return result;
+    public int insert(ProjectEntity entity) throws BusinessException {
+        this.validateProject(entity);
+        return projectMapper.insertSelective(entity);
     }
 
     @Transactional
-    public int update(Project param) throws BusinessException {
-        Project project = new Project();
-        project.setId("1234567");
-        project.setName(param.getName());
-        project.setDescription(param.getDescription());
-        project.setStatus("1");
-        project.setLock("1");
-        int result = 1;
-        return result;
+    public int update(ProjectEntity entity) {
+        return projectMapper.updateByPrimaryKeySelective(entity);
     }
 
-    private void validateProject(Project project) throws BusinessException {
-        this.validateProjectNameDuplicate(project);
-        this.validateProjectNameEmpty(project);
-        this.validateProjectNameLegal(project);
+    @Override
+    public ProjectEntity selectOne(ProjectEntity entity) throws BusinessException {
+        this.validateProject1(entity);
+        return projectMapper.selectOne(entity);
     }
 
-    private void validateProjectNameDuplicate(Project project) throws BusinessException {
-        if ("项目 4".equals(project.getName())) {
-            throw new BusinessException("20101");
-        }
-    }
-
-    private void validateProjectNameEmpty(Project project) throws BusinessException {
-        if (StringUtils.isEmpty(project.getName())) {
-            throw new BusinessException("20102");
-        }
-    }
-
-    private void validateProjectNameLegal(Project project) throws BusinessException {
-        if (project.getName().contains("$%^&*~!")) {
-            throw new BusinessException("20103");
-        }
-    }
-
-    public boolean permission(Project project) throws BusinessException {
+    public boolean permission(ProjectEntity project) throws BusinessException {
         if (!"管理员".equals(project.getUserName())) {
             return false;
         }
         return true;
     }
 
-    public boolean isLocked(Project project) throws BusinessException {
+    public boolean isLocked(ProjectEntity project) throws BusinessException {
 //        if ("UNLOCKED".equals(project.getLock())) {
 //            return false;
 //        }
-        if ("已锁定".equals(project.getStatus())) {
+        if ("已锁定".equals(project.getProgress())) {
             return true;
         }
         return false;
     }
 
-    public Project selectOne(Project project) throws BusinessException {
-        this.validateProject1(project);
-        return new Project();
+    private void validateProject(ProjectEntity project) throws BusinessException {
+        this.validateProjectNameEmpty(project);
+        this.validateProjectNameDuplicate(project);
+        this.validateProjectNameLegal(project);
     }
 
+    private void validateProjectNameDuplicate(ProjectEntity project) throws BusinessException {
+        ProjectEntity param = new ProjectEntity();
+        param.setName(project.getName());
+        int p = projectMapper.selectCount(param);
+        if (p > 0) {
+            throw new BusinessException("20101");
+        }
+    }
 
-    private void validateProject1(Project project) throws BusinessException {
+    private void validateProjectNameEmpty(ProjectEntity project) throws BusinessException {
+        if (StringUtils.isEmpty(project.getName())) {
+            throw new BusinessException("20102");
+        }
+    }
+
+    private void validateProjectNameLegal(ProjectEntity project) throws BusinessException {
+        if (project.getName().contains("$%^&*~!")) {
+            throw new BusinessException("20103");
+        }
+    }
+
+    private void validateProject1(ProjectEntity project) throws BusinessException {
         if (StringUtils.isEmpty(project.getName())) {
             throw new BusinessException("20141");
         } else if (project.getName().contains("$%^&*~!")) {
             throw new BusinessException("20141");
         }
     }
-
 }

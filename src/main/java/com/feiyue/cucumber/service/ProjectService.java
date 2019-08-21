@@ -1,6 +1,6 @@
 package com.feiyue.cucumber.service;
 
-import com.feiyue.cucumber.entity.Project;
+import com.feiyue.cucumber.entity.ProjectEntity;
 import com.feiyue.cucumber.util.BusinessException;
 
 /**
@@ -8,14 +8,14 @@ import com.feiyue.cucumber.util.BusinessException;
  **/
 public interface ProjectService {
 
-    int insert(Project project) throws BusinessException;
+    int insert(ProjectEntity project) throws BusinessException;
 
-    int update(Project project) throws BusinessException;
+    int update(ProjectEntity project) throws BusinessException;
 
-    boolean permission(Project project) throws BusinessException;
+    boolean permission(ProjectEntity project) throws BusinessException;
 
-    boolean isLocked(Project project) throws BusinessException;
+    boolean isLocked(ProjectEntity project) throws BusinessException;
 
-    Project selectOne(Project project) throws BusinessException;
+    ProjectEntity selectOne(ProjectEntity project) throws BusinessException;
 
 }

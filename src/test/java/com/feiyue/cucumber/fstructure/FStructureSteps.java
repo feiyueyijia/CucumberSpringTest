@@ -2,7 +2,7 @@ package com.feiyue.cucumber.fstructure;
 
 import com.alibaba.fastjson.JSONObject;
 import com.feiyue.cucumber.base.APIBaseTest;
-import com.feiyue.cucumber.entity.Project;
+import com.feiyue.cucumber.entity.ProjectEntity;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -11,8 +11,10 @@ import cucumber.api.java.en.When;
 import org.junit.Assert;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by jisongZhou on 2019/8/6.
@@ -25,7 +27,7 @@ public class FStructureSteps extends APIBaseTest {
     String updateResultMessage = "";   //修改结果
     String lockResultMessage = "";  //锁定结果
     String queryResultMessage = "";   //查看结果
-    Project project = new Project();
+    ProjectEntity project = new ProjectEntity();
 
 
     @Before
@@ -43,7 +45,7 @@ public class FStructureSteps extends APIBaseTest {
 
     @Given("^用户 \"([^\"]*)\" 拥有项目权限$")
     public void projectPermission(String userName) {
-        project = new Project();
+        project = new ProjectEntity();
         project.setUserName(userName);
     }
 
@@ -65,7 +67,7 @@ public class FStructureSteps extends APIBaseTest {
         Map<String, String> paramsMap = new HashMap<>();
 
         project.setName(projectName);
-        project.setLock("1");
+        project.setLockin("已锁定");
 
         //转换成ajax请求的json数据
         String content = JSONObject.toJSONString(project);
@@ -82,7 +84,7 @@ public class FStructureSteps extends APIBaseTest {
 
     @When("^选择 \"([^\"]*)\" 点击修改项目按钮$")
     public void updateProject(String projectName) throws Exception {
-
+        project.setName(projectName);
     }
 
     @And("^输入 \"([^\"]*)\" 和 \"([^\"]*)\"$")
@@ -92,12 +94,15 @@ public class FStructureSteps extends APIBaseTest {
 
         Map<String, String> paramsMap = new HashMap<>();
 
-        project = new Project();
-        project.setId("1234567");
+        project = new ProjectEntity();
+        project.setId(uuid());
         project.setName(projectName);
         project.setDescription(projectDescription);
-        project.setStatus("1");
-        project.setLock("1");
+        project.setProgressBar("0%");
+        project.setProgress("未开始");
+        project.setLockin("未锁定");
+        project.setCreateTime(new Date());
+        project.setUpdateTime(new Date());
 
         //转换成ajax请求的json数据
         String content = JSONObject.toJSONString(project);
@@ -120,7 +125,7 @@ public class FStructureSteps extends APIBaseTest {
         Map<String, String> paramsMap = new HashMap<>();
 
         project.setDescription(projectDescription);
-        project.setStatus(ProjectStatus);
+        project.setProgress(ProjectStatus);
 
         //转换成ajax请求的json数据
         String content = JSONObject.toJSONString(project);
@@ -147,7 +152,7 @@ public class FStructureSteps extends APIBaseTest {
 
         Map<String, String> paramsMap = new HashMap<>();
 
-        Project project = new Project();
+        ProjectEntity project = new ProjectEntity();
         project.setName(projectName);
 
         //转换成ajax请求的json数据
@@ -159,7 +164,7 @@ public class FStructureSteps extends APIBaseTest {
         String url = "/project/selectOne";
 
         //模拟页面请求
-        JSONObject result = getRequest(url, content);
+        JSONObject result = postRequest(url, content);
         queryResultMessage = result.getString("message");
     }
 
@@ -189,4 +194,7 @@ public class FStructureSteps extends APIBaseTest {
         Assert.assertEquals(updateResultMessage, result);
     }
 
+    public static String uuid() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
 }

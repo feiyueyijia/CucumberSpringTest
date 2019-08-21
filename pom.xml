@@ -21,6 +21,12 @@
         <spring-boot.version>2.0.4.RELEASE</spring-boot.version>
         <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
         <cucumber.version>1.2.5</cucumber.version>
+        <mysql-connector-java.version>5.1.47</mysql-connector-java.version>
+        <druid.version>1.1.12</druid.version>
+        <mybatis-spring-boot.version>2.0.0</mybatis-spring-boot.version>
+        <mapper-spring-boot.version>2.1.3</mapper-spring-boot.version>
+        <pagehelper-spring-boot.version>1.2.3</pagehelper-spring-boot.version>
+        <mybatis-generator-maven-plugin.version>1.3.7</mybatis-generator-maven-plugin.version>
     </properties>
 
     <!--<distributionManagement>-->
@@ -37,6 +43,13 @@
     <!--</distributionManagement>-->
 
     <dependencies>
+        <!-- 通用实体工具类 -->
+        <!--<dependency>-->
+            <!--<groupId>com.yfny</groupId>-->
+            <!--<artifactId>utils-common</artifactId>-->
+            <!--<version>0.0.1-SNAPSHOT</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -116,12 +129,42 @@
             <version>2.0.4.RELEASE</version>
         </dependency>
 
-
         <dependency>
             <groupId>com.atlassian.ta</groupId>
             <artifactId>wiremock-pact-generator</artifactId>
             <scope>test</scope>
             <version>2.1.0</version>
+        </dependency>
+
+        <!-- mysql数据库驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector-java.version}</version>
+        </dependency>
+        <!--集成druid，使用连接-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+        <!-- mybatis依赖 -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>${mybatis-spring-boot.version}</version>
+        </dependency>
+        <!--mybatis通用Mapper-->
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>${mapper-spring-boot.version}</version>
+        </dependency>
+        <!--mybatis分页插件 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagehelper-spring-boot.version}</version>
         </dependency>
 
         <!-- 单元测试依赖开始 -->
@@ -170,6 +213,16 @@
     </dependencyManagement>
 
     <build>
+        <!--<finalName>${project.artifactId}</finalName>-->
+        <!--<filters>-->
+            <!--<filter>src/main/resources/bootstrap.properties</filter>-->
+        <!--</filters>-->
+        <!--<resources>-->
+            <!--<resource>-->
+                <!--<directory>src/main/resources</directory>-->
+                <!--<filtering>true</filtering>-->
+            <!--</resource>-->
+        <!--</resources>-->
         <plugins>
             <!-- spring maven插件 -->
             <plugin>
