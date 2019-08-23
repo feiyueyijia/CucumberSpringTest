@@ -11,10 +11,7 @@ import cucumber.api.java.en.When;
 import org.junit.Assert;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by jisongZhou on 2019/8/6.
@@ -239,8 +236,8 @@ public class FStructureSteps extends APIBaseTest {
     }
 
     @Then("^返回获取项目列表执行结果:$")
-    public void loadProjectListResult(String result) {
-        Assert.assertEquals(loadListResultMessage, result);
+    public void loadProjectListResult(List<String> result) {
+        Assert.assertEquals(loadListResultMessage, result.get(0));
     }
 
     private static String uuid() {

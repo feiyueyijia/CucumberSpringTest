@@ -93,9 +93,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     private void validateProject1(ProjectEntity project) throws BusinessException {
         if (StringUtils.isEmpty(project.getName())) {
-            throw new BusinessException("20141");
+            throw new BusinessException("20142");
         } else if (project.getName().contains("$%^&*~!")) {
-            throw new BusinessException("20141");
+            throw new BusinessException("20142");
         }
     }
 }

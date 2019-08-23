@@ -53,7 +53,7 @@ public class ProjectController {
             throw new BusinessException("20121");
         }
         int result = projectService.delete(entity);
-        return InvokeResult.writeResult(result, "20100", "10003", "10002");
+        return InvokeResult.writeResult(result, "20120", "10003", "10002");
     }
 
     @PostMapping(value = "/lock")
