@@ -27,6 +27,8 @@ public class FStructureSteps extends APIBaseTest {
     String updateResultMessage = "";   //修改结果
     String lockResultMessage = "";  //锁定结果
     String queryResultMessage = "";   //查看结果
+    String loadListResultMessage = "";  //加载列表结果
+    String deleteResultMessage = "";    //删除结果
     ProjectEntity project = new ProjectEntity();
 
 
@@ -85,6 +87,28 @@ public class FStructureSteps extends APIBaseTest {
     @When("^选择 \"([^\"]*)\" 点击修改项目按钮$")
     public void updateProject(String projectName) throws Exception {
         project.setName(projectName);
+    }
+
+    @When("^选择 \"([^\"]*)\" 点击删除项目按钮$")
+    public void deleteProject(String projectName) throws Exception {
+
+        /*--------------------开始业务组装--------------------*/
+
+        Map<String, String> paramsMap = new HashMap<>();
+
+        project.setName(projectName);
+
+        //转换成ajax请求的json数据
+        String content = JSONObject.toJSONString(project);
+
+        /*--------------------业务组装结束--------------------*/
+
+        //指定要请求的接口路径
+        String url = "/project/delete";
+
+        //模拟页面请求
+        JSONObject result = postRequest(url, content);
+        deleteResultMessage = result.getString("message");
     }
 
     @And("^输入 \"([^\"]*)\" 和 \"([^\"]*)\"$")
@@ -168,14 +192,29 @@ public class FStructureSteps extends APIBaseTest {
         queryResultMessage = result.getString("message");
     }
 
-    @Then("^打开功能结构管理菜单$")
-    public void openFStructure() {
+    @And("^打开功能结构管理菜单$")
+    public void openFStructure() throws Exception {
+        /*--------------------开始业务组装--------------------*/
 
+        Map<String, String> paramsMap = new HashMap<>();
+
+        ProjectEntity project = new ProjectEntity();
+
+        //转换成ajax请求的json数据
+        String content = JSONObject.toJSONString(project);
+
+        /*--------------------业务组装结束--------------------*/
+
+        //指定要请求的接口路径
+        String url = "/project/findList";
+
+        //模拟页面请求
+        JSONObject result = postRequest(url, content);
+        loadListResultMessage = result.getString("message");
     }
 
     @Then("^返回新建项目执行结果 \"([^\"]*)\"$")
     public void verifyCreateProjectResult(String result) {
-
         Assert.assertEquals(createResultMessage, result);
     }
 
@@ -194,7 +233,17 @@ public class FStructureSteps extends APIBaseTest {
         Assert.assertEquals(updateResultMessage, result);
     }
 
-    public static String uuid() {
+    @Then("^返回删除项目执行结果 \"([^\"]*)\"$")
+    public void verifyDeleteProjectResult(String result) {
+        Assert.assertEquals(deleteResultMessage, result);
+    }
+
+    @Then("^返回获取项目列表执行结果:$")
+    public void loadProjectListResult(String result) {
+        Assert.assertEquals(loadListResultMessage, result);
+    }
+
+    private static String uuid() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 }

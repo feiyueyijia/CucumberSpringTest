@@ -7,6 +7,8 @@ import com.feiyue.cucumber.util.InvokeResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created by jisongZhou on 2019/8/15.
  **/
@@ -43,6 +45,17 @@ public class ProjectController {
         return InvokeResult.writeResult(result, "20110", "10003", "10002");
     }
 
+    @PostMapping(value = "/delete")
+    @ResponseBody
+    public InvokeResult delete(@RequestBody ProjectEntity entity) throws Exception {
+        boolean flag1 = projectService.permission(entity);
+        if (!flag1) {
+            throw new BusinessException("20121");
+        }
+        int result = projectService.delete(entity);
+        return InvokeResult.writeResult(result, "20100", "10003", "10002");
+    }
+
     @PostMapping(value = "/lock")
     @ResponseBody
     public InvokeResult lock(@RequestBody ProjectEntity entity) throws Exception {
@@ -62,14 +75,21 @@ public class ProjectController {
     @ResponseBody
     public InvokeResult permission(@RequestBody ProjectEntity entity) throws Exception {
         boolean result = projectService.permission(entity);
-        return InvokeResult.readResult(result, "10001", "10003", "20141");
+        return InvokeResult.readResult(result, "10001", "10003", "20142");
     }
 
     @PostMapping(value = "/selectOne")
     @ResponseBody
     public InvokeResult selectOne(@RequestBody ProjectEntity entity) throws Exception {
         ProjectEntity result = projectService.selectOne(entity);
-        return InvokeResult.readResult(result, "20140", "10003", "20141");
+        return InvokeResult.readResult(result, "20141", "10003", "20142");
+    }
+
+    @PostMapping(value = "/findList")
+    @ResponseBody
+    public InvokeResult findList(@RequestBody ProjectEntity entity) throws Exception {
+        List<ProjectEntity> result = projectService.findList(entity);
+        return InvokeResult.readResult(result, "20140", "10003", "10002");
     }
 
 }

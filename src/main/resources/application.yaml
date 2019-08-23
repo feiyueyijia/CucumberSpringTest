@@ -55,37 +55,3 @@ mapper:
   not-empty: true
   #枚举按简单类型处理
   enum-as-simple-type: true
-
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/
-#  # 自定义实例编号
-#  instance:
-#    instance-id: ${spring.application.name}:${server.port}
-#    # 配置使用主机名注册服务
-#    hostname: peer1
-#    # 优先使用IP地址方式进行注册服务
-#    prefer-ip-address: true
-#    # 配置使用指定IP
-#    ip-address: 127.0.0.1
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: "*"
-#      cors:
-#        allowed-origins: "*"
-#        allowed-methods: "*"
-
-##TC配置信息
-#tx-lcn:
-#  client:
-#    manager-address:
-#
-##TC日志
-#logging:
-#  level:
-#    com:
-#      dodingapi:
-#        txlcn: debug

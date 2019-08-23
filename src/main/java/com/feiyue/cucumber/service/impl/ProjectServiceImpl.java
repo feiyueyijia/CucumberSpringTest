@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * 功能结构管理项目对象ServiceImpl
  * Author auto
@@ -31,10 +33,18 @@ public class ProjectServiceImpl implements ProjectService {
         return projectMapper.updateByPrimaryKeySelective(entity);
     }
 
-    @Override
+    @Transactional
+    public int delete(ProjectEntity entity) throws BusinessException {
+        return projectMapper.delete(entity);
+    }
+
     public ProjectEntity selectOne(ProjectEntity entity) throws BusinessException {
         this.validateProject1(entity);
         return projectMapper.selectOne(entity);
+    }
+
+    public List<ProjectEntity> findList(ProjectEntity entity) throws BusinessException {
+        return projectMapper.selectAll();
     }
 
     public boolean permission(ProjectEntity project) throws BusinessException {
