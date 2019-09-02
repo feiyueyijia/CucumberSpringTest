@@ -72,6 +72,13 @@
             <version>0.9.0.RELEASE</version>
         </dependency>
 
+        <!-- 服务配置依赖 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <version>0.9.0.RELEASE</version>
+        </dependency>
+
         <!-- Cucumber 测试依赖开始 -->
         <dependency>
             <groupId>info.cukes</groupId>

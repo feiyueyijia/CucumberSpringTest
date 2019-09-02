@@ -1,13 +1,28 @@
 package com.feiyue.cucumber.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import java.text.MessageFormat;
 
 /**
  * 统一调用响应格式
  * Created by jisongZhou on 2019/2/18.
  **/
-
+@Component
 public class InvokeResult<T> {
+
+    @Autowired
+    private ConfigurableApplicationContext applicationContext;
+
+    private static InvokeResult invokeResult;
+
+    @PostConstruct
+    public void init() {
+        invokeResult = this;
+    }
 
     private final static int SUCCESS = 0;
     private final static int FAILURE = 1;
@@ -21,9 +36,6 @@ public class InvokeResult<T> {
 
     //响应数据
     private T data;
-
-    //配置读取器
-    private static PropertiesLoader loader = new PropertiesLoader("props/returncode.properties");
 
     public static <T> InvokeResult success(T data) {
         return success("", data, null);
@@ -120,7 +132,7 @@ public class InvokeResult<T> {
      * @return
      */
     private static String getMsgFromCfg(String code, String[] params) {
-        String message = loader.getProperty(code, "");
+        String message = invokeResult.applicationContext.getEnvironment().getProperty(code);
         return params == null ? message : MessageFormat.format(message,
                 params);
     }
