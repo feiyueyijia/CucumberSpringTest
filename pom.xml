@@ -66,11 +66,11 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
-            <!--<version>0.2.2.RELEASE</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>0.9.0.RELEASE</version>
+        </dependency>
 
         <!-- Cucumber 测试依赖开始 -->
         <dependency>
@@ -213,16 +213,16 @@
     </dependencyManagement>
 
     <build>
-        <!--<finalName>${project.artifactId}</finalName>-->
-        <!--<filters>-->
-            <!--<filter>src/main/resources/bootstrap.properties</filter>-->
-        <!--</filters>-->
-        <!--<resources>-->
-            <!--<resource>-->
-                <!--<directory>src/main/resources</directory>-->
-                <!--<filtering>true</filtering>-->
-            <!--</resource>-->
-        <!--</resources>-->
+        <finalName>${project.artifactId}</finalName>
+        <filters>
+            <filter>src/main/resources/bootstrap.properties</filter>
+        </filters>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <!-- spring maven插件 -->
             <plugin>
@@ -234,5 +234,57 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <!-- 本地开发环境 -->
+            <id>local</id>
+            <activation>
+                <!-- 设置默认激活这个配置 -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <environment>local</environment>
+                <nacos.addr>192.168.137.202:8848</nacos.addr>
+                <nacos.namespace>f10a861b-2569-4241-a13d-aa803ab27b7f</nacos.namespace>
+            </properties>
+        </profile>
+        <profile>
+            <!-- 开发测试环境 -->
+            <id>dev</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <environment>dev</environment>
+                <nacos.addr>192.168.137.202:8848</nacos.addr>
+                <nacos.namespace>58911547-2fd5-4253-9b48-bf7fef4a2b87</nacos.namespace>
+            </properties>
+        </profile>
+        <profile>
+            <!-- 正式测试环境 -->
+            <id>test</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <environment>test</environment>
+                <nacos.addr>192.168.137.202:8848</nacos.addr>
+                <nacos.namespace>dc25f0db-9f1d-4ba4-86c7-2e592897c725</nacos.namespace>
+            </properties>
+        </profile>
+        <profile>
+            <!-- 生产发布环境 -->
+            <id>release</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <environment>release</environment>
+                <nacos.addr>192.168.137.202:8848</nacos.addr>
+                <nacos.namespace>4823b8b8-69c5-41ae-918d-80ec4f2ac971</nacos.namespace>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
