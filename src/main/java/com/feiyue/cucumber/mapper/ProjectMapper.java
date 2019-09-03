@@ -1,7 +1,7 @@
 package com.feiyue.cucumber.mapper;
 
 import com.feiyue.cucumber.entity.ProjectEntity;
-import com.feiyue.cucumber.util.BaseMapper;
+import com.yfny.utilscommon.basemvc.producer.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 

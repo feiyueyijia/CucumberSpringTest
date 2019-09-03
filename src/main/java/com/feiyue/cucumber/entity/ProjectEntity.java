@@ -1,13 +1,12 @@
 package com.feiyue.cucumber.entity;
 
-import com.feiyue.cucumber.util.BaseEntity;
+import com.yfny.utilscommon.basemvc.common.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**

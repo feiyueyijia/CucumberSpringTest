@@ -20,6 +20,7 @@
     <properties>
         <spring-boot.version>2.0.4.RELEASE</spring-boot.version>
         <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
+        <nacos-spring.version>0.9.0.RELEASE</nacos-spring.version>
         <cucumber.version>1.2.5</cucumber.version>
         <mysql-connector-java.version>5.1.47</mysql-connector-java.version>
         <druid.version>1.1.12</druid.version>
@@ -28,6 +29,17 @@
         <pagehelper-spring-boot.version>1.2.3</pagehelper-spring-boot.version>
         <mybatis-generator-maven-plugin.version>1.3.7</mybatis-generator-maven-plugin.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>nexus-snapshots</id>
+            <name>nexus-snapshots</name>
+            <url>http://192.168.137.201:8082/repository/maven-snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <!--<distributionManagement>-->
     <!--<repository>-->
@@ -44,11 +56,11 @@
 
     <dependencies>
         <!-- 通用实体工具类 -->
-        <!--<dependency>-->
-            <!--<groupId>com.yfny</groupId>-->
-            <!--<artifactId>utils-common</artifactId>-->
-            <!--<version>0.0.1-SNAPSHOT</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.yfny</groupId>
+            <artifactId>utils-common</artifactId>
+            <version>0.0.1-20190903.021721-4</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -69,14 +81,14 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <version>0.9.0.RELEASE</version>
+            <version>${nacos-spring.version}</version>
         </dependency>
 
         <!-- 服务配置依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-            <version>0.9.0.RELEASE</version>
+            <version>${nacos-spring.version}</version>
         </dependency>
 
         <!-- Cucumber 测试依赖开始 -->

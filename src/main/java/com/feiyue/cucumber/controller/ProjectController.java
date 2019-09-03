@@ -2,8 +2,8 @@ package com.feiyue.cucumber.controller;
 
 import com.feiyue.cucumber.entity.ProjectEntity;
 import com.feiyue.cucumber.service.ProjectService;
-import com.feiyue.cucumber.util.BusinessException;
 import com.feiyue.cucumber.util.InvokeResult;
+import com.yfny.utilscommon.basemvc.common.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

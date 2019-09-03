@@ -1,7 +1,7 @@
 package com.feiyue.cucumber.service;
 
 import com.feiyue.cucumber.entity.ProjectEntity;
-import com.feiyue.cucumber.util.BusinessException;
+import com.yfny.utilscommon.basemvc.common.BusinessException;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
 package com.feiyue.cucumber.util;
 
+import com.yfny.utilscommon.basemvc.common.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
