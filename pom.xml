@@ -18,7 +18,7 @@
     </parent>
 
     <properties>
-        <spring-boot.version>2.0.4.RELEASE</spring-boot.version>
+        <spring-boot.version>2.5.12</spring-boot.version>
         <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
         <nacos-spring.version>0.9.0.RELEASE</nacos-spring.version>
         <cucumber.version>1.2.5</cucumber.version>
